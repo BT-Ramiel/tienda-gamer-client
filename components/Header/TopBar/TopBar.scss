@@ -39,6 +39,10 @@
           width: 300px;
         }
       }
+      input::selection {
+        color: $font-dark;
+        background: $background-gray;
+      }
       i {
         color: $primary;
         font-size: 18px;

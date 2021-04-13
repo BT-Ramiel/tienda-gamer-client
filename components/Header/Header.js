@@ -1,12 +1,12 @@
 import React from 'react'
 import TopBar from "./TopBar/TopBar"
-import Menu from "./Menu/Menu";
+import MyMenu from "./Menu/MyMenu";
 
 export default function Header() {
     return (
         <div className="header">
             <TopBar/>
-            <Menu/>
+            <MyMenu/>
         </div>
     )
 }
