@@ -1,0 +1,17 @@
+.basic-modal {
+  #modal-header {
+    color: $font-light;
+    background-color: $background-dark;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0;
+    i {
+      color: $primary;
+      font-size: 2rem;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
