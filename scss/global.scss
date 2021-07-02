@@ -1,5 +1,18 @@
 @import './index';
 
-body {
-	background-color: gray;
+.ui.form {
+	.ui.input {
+		border: 1px solid $border-gray-light;
+		font-size: 16px;
+	}
+	.buttons-container {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	.ui.button.submit-button {
+		background-color: $primary;
+		color: $font-light;
+		margin: 0;
+	}
 }
