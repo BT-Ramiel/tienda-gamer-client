@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 
 export default function RegisterForm({ showLoginForm = null }) {
 	const [loading, setLoading] = useState(false)
+	
 	const { handleSubmit, handleChange, errors } = useFormik({
 		initialValues: initialValues(),
 		validationSchema: Yup.object(validationSchema()),
@@ -60,7 +61,7 @@ export default function RegisterForm({ showLoginForm = null }) {
 				error={errors.password}
 			/>
 			<div className="buttons-container">
-				<Button type="button" basic>
+				<Button type="button" basic onClick={showLoginForm}>
 					Iniciar sesion
 				</Button>
 				<Button
