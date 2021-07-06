@@ -3,15 +3,41 @@ import { Form, Button } from 'semantic-ui-react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
+import { LoginAPI, ResetPasswordAPI } from '../../../api/user'
+import useAuth from '../../../hooks/useAuth'
 
-export default function LoginForm({ showRegisterForm = null }) {
-	const { handleSubmit, handleChange, errors } = useFormik({
-		initialValues: initialValues(),
-		validationSchema: Yup.object(validationSchema()),
-		onSubmit: async formData => {
-			console.log(formData)
-		},
-	})
+export default function LoginForm({
+	showRegisterForm = null,
+	onCloseModal = null,
+}) {
+	const [loading, setLoading] = useState(false)
+	const { login } = useAuth()
+
+	const { handleSubmit, handleChange, errors, setErrors, values } = useFormik(
+		{
+			initialValues: initialValues(),
+			validationSchema: Yup.object(validationSchema()),
+			onSubmit: async formData => {
+				setLoading(true)
+				const response = await LoginAPI(formData)
+				if (response?.jwt && onCloseModal) {
+					login(response.jwt)
+					onCloseModal()
+				} else toast.error('Email o contrasena incorrectos')
+				setLoading(false)
+			},
+		}
+	)
+
+	const resetPassword = () => {
+		setErrors({})
+		const validateEmail = Yup.string().email().required(true)
+		if (!validateEmail.isValidSync(values.identifier)) {
+			setErrors({ identifier: true })
+		} else {
+			ResetPasswordAPI(values.identifier)
+		}
+	}
 
 	return (
 		<Form className="LoginForm" onSubmit={handleSubmit}>
@@ -34,10 +60,15 @@ export default function LoginForm({ showRegisterForm = null }) {
 					Registrarse
 				</Button>
 				<div>
-					<Button className="submit-button" type="submit">
+					<Button
+						className="submit-button"
+						type="submit"
+						loading={loading}>
 						Entrar
 					</Button>
-					<Button type="button">Olvide mi contrasena</Button>
+					<Button type="button" onClick={resetPassword}>
+						Olvide mi contrasena
+					</Button>
 				</div>
 			</div>
 		</Form>
