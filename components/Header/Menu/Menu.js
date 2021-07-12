@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
 	Container,
 	Menu as SemanticUIMenu,
@@ -8,10 +8,13 @@ import {
 import Link from 'next/link'
 import BasicModal from '../../Modal/BasicModal/BasicModal'
 import Auth from '../../Auth'
+import useAuth from '../../../hooks/useAuth'
+import { getMeAPI } from '../../../api/user'
 
 export default function Menu() {
 	const [showModal, setShowModal] = useState(false)
 	const [titleModal, setTitleModal] = useState('Iniciar sesion')
+	const { logout, auth } = useAuth()
 
 	const onShowModal = () => setShowModal(true)
 	const onCloseModal = () => {
@@ -19,14 +22,18 @@ export default function Menu() {
 	}
 
 	return (
-		<div className='menu'>
+		<div className="menu">
 			<Container>
 				<Grid>
-					<Grid.Column className='menu__left' width={6}>
+					<Grid.Column className="menu__left" width={6}>
 						<MenuPlatforms />
 					</Grid.Column>
-					<Grid.Column className='menu__right' width={10}>
-						<MenuOptions onShowModal={onShowModal} />
+					<Grid.Column className="menu__right" width={10}>
+						{auth ? (
+							<button onClick={logout}>Cerrar sesion</button>
+						) : (
+							<MenuOptions onShowModal={onShowModal} />
+						)}
 					</Grid.Column>
 				</Grid>
 			</Container>
@@ -35,7 +42,7 @@ export default function Menu() {
 				setShow={setShowModal}
 				title={titleModal}
 				animation={true}
-				size='small'>
+				size="small">
 				<Auth
 					onCloseModal={onCloseModal}
 					setTitleModal={setTitleModal}
@@ -50,8 +57,8 @@ function MenuOptions(props) {
 
 	return (
 		<SemanticUIMenu>
-			<SemanticUIMenu.Item className='menu_item' onClick={onShowModal}>
-				<Icon name='user outline' />
+			<SemanticUIMenu.Item className="menu_item" onClick={onShowModal}>
+				<Icon name="user outline" />
 				Mi cuenta
 			</SemanticUIMenu.Item>
 		</SemanticUIMenu>
@@ -61,18 +68,18 @@ function MenuOptions(props) {
 function MenuPlatforms() {
 	return (
 		<SemanticUIMenu>
-			<Link href='/play-station'>
-				<SemanticUIMenu.Item className='menu_item' as='a'>
+			<Link href="/play-station">
+				<SemanticUIMenu.Item className="menu_item" as="a">
 					PlayStation
 				</SemanticUIMenu.Item>
 			</Link>
-			<Link href='/xbox'>
-				<SemanticUIMenu.Item className='menu_item' as='a'>
+			<Link href="/xbox">
+				<SemanticUIMenu.Item className="menu_item" as="a">
 					Xbox
 				</SemanticUIMenu.Item>
 			</Link>
-			<Link href='/switch'>
-				<SemanticUIMenu.Item className='menu_item' as='a'>
+			<Link href="/switch">
+				<SemanticUIMenu.Item className="menu_item" as="a">
 					Switch
 				</SemanticUIMenu.Item>
 			</Link>

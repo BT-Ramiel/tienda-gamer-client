@@ -31,7 +31,7 @@ export default function LoginForm({
 
 	const resetPassword = () => {
 		setErrors({})
-		const validateEmail = Yup.string().email().required(true)
+		const validateEmail = Yup.string().email().required()
 		if (!validateEmail.isValidSync(values.identifier)) {
 			setErrors({ identifier: true })
 		} else {
