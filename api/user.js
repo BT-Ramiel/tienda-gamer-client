@@ -59,6 +59,7 @@ export async function ResetPasswordAPI(email) {
 	}
 }
 
+//funcion para obtener usuario actual por ID
 export async function getMeAPI(logout) {
 	try {
 		const url = `${BASE_PATH}/users/me`

@@ -15,11 +15,19 @@ export default function Menu() {
 	const [showModal, setShowModal] = useState(false)
 	const [titleModal, setTitleModal] = useState('Iniciar sesion')
 	const { logout, auth } = useAuth()
+	const { user, setUser } = useState(undefined)
 
 	const onShowModal = () => setShowModal(true)
 	const onCloseModal = () => {
 		setShowModal(false)
 	}
+
+	useEffect(() => {
+		;(async () => {
+			const response = await getMeAPI(logout)
+			setUser(response)
+		})()
+	}, [auth])
 
 	return (
 		<div className="menu">
