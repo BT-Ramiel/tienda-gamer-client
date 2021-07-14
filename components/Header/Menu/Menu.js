@@ -15,7 +15,7 @@ export default function Menu() {
 	const [showModal, setShowModal] = useState(false)
 	const [titleModal, setTitleModal] = useState('Iniciar sesion')
 	const { logout, auth } = useAuth()
-	const { user, setUser } = useState(undefined)
+	const [user, setUser] = useState(undefined)
 
 	const onShowModal = () => setShowModal(true)
 	const onCloseModal = () => {
@@ -37,10 +37,12 @@ export default function Menu() {
 						<MenuPlatforms />
 					</Grid.Column>
 					<Grid.Column className="menu__right" width={10}>
-						{auth ? (
-							<button onClick={logout}>Cerrar sesion</button>
-						) : (
-							<MenuOptions onShowModal={onShowModal} />
+						{user !== undefined && (
+							<MenuOptions
+								onShowModal={onShowModal}
+								user={user}
+								logout={logout}
+							/>
 						)}
 					</Grid.Column>
 				</Grid>
@@ -60,22 +62,55 @@ export default function Menu() {
 	)
 }
 
-function MenuOptions(props) {
-	const { onShowModal } = props
-
+function MenuOptions({ onShowModal, user, logout }) {
 	return (
-		<SemanticUIMenu>
-			<SemanticUIMenu.Item className="menu_item" onClick={onShowModal}>
-				<Icon name="user outline" />
-				Mi cuenta
-			</SemanticUIMenu.Item>
+		<SemanticUIMenu className="MenuOptions">
+			{user ? (
+				<>
+					<Link href="/orders">
+						<SemanticUIMenu.Item as="a" className="menu_item">
+							<Icon name="game" />
+							Mis pedidos
+						</SemanticUIMenu.Item>
+					</Link>
+					<Link href="/wishlist">
+						<SemanticUIMenu.Item as="a" className="menu_item">
+							<Icon name="heart outline" />
+							Wishlist
+						</SemanticUIMenu.Item>
+					</Link>
+					<Link href="/account">
+						<SemanticUIMenu.Item as="a" className="menu_item">
+							<Icon name="user outline" />
+							{user.name} {user.lastname}
+						</SemanticUIMenu.Item>
+					</Link>
+					<Link href="/cart">
+						<SemanticUIMenu.Item as="a" className="menu_item m-0">
+							<Icon name="cart" />
+						</SemanticUIMenu.Item>
+					</Link>
+					<SemanticUIMenu.Item
+						className="menu_item m-0"
+						onClick={logout}>
+						<Icon name="power off" />
+					</SemanticUIMenu.Item>
+				</>
+			) : (
+				<SemanticUIMenu.Item
+					className="menu_item"
+					onClick={onShowModal}>
+					<Icon name="user outline" />
+					Mi cuenta
+				</SemanticUIMenu.Item>
+			)}
 		</SemanticUIMenu>
 	)
 }
 
 function MenuPlatforms() {
 	return (
-		<SemanticUIMenu>
+		<SemanticUIMenu className="MenuPlatforms">
 			<Link href="/play-station">
 				<SemanticUIMenu.Item className="menu_item" as="a">
 					PlayStation

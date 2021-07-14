@@ -70,3 +70,20 @@ export async function getMeAPI(logout) {
 		return error
 	}
 }
+
+//function para obtener
+export async function updateNameAPI(idUser, data, logout) {
+	try {
+		const url = `${BASE_PATH}/users/${idUser}`
+		const params = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(data),
+		}
+		const result = await authFetch(url, params, logout)
+		return result ? result : null
+	} catch (error) {
+		console.log(error)
+		return null
+	}
+}
