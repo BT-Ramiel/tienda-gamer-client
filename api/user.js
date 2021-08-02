@@ -71,14 +71,16 @@ export async function getMeAPI(logout) {
 	}
 }
 
-//function para obtener
+//function para actualizar el nombre y apellido
 export async function updateNameAPI(idUser, data, logout) {
 	try {
 		const url = `${BASE_PATH}/users/${idUser}`
 		const params = {
 			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ data }),
 		}
 		const result = await authFetch(url, params, logout)
 		return result ? result : null
